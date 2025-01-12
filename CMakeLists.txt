@@ -20,6 +20,7 @@ include_directories(include)
 set(FT_LDFLAGS
         -fsanitize=address
         -fsanitize=undefined
+        -fsanitize=thread
         -fno-sanitize-recover
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow)
@@ -40,37 +41,10 @@ set(FT_CFLAGSFT_CFLAGS
         -fasynchronous-unwind-tables
         -fsanitize=address
         -fsanitize=undefined
+        -fsanitize=thread
         -fno-sanitize-recover
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow)
-
-#==============================================================================#
-# FT lib
-#==============================================================================#
-
-set(FT_LIB_NAME ft)
-set(FT_LIB_FILENAME libft.a)
-set(FT_LIB_DIR "${PROJECT_SOURCE_DIR}/lib/ft")
-
-file(GLOB_RECURSE FT_LIB_HEADERS "${FT_LIB_DIR}/*.h")
-file(GLOB_RECURSE FT_LIB_SOURCES "${FT_LIB_DIR}/ft_*.c")
-
-add_custom_target(${FT_LIB_NAME}_target ALL
-        COMMAND make -C ${FT_LIB_DIR}
-        BYPRODUCTS "${FT_LIB_DIR}/${FT_LIB_FILENAME}"
-        SOURCES "${FT_LIB_HEADERS};${FT_LIB_SOURCES}"
-        COMMENT "Building FT_LIB")
-
-add_library(${FT_LIB_NAME} STATIC IMPORTED)
-add_dependencies(${FT_LIB_NAME} "${FT_LIB_NAME}_target")
-set_target_properties(${FT_LIB_NAME} PROPERTIES
-        IMPORTED_LOCATION ${FT_LIB_DIR}/${FT_LIB_FILENAME}
-        INTERFACE_COMPILE_DEFINITIONS ""
-        INTERFACE_LINK_OPTIONS ""
-        INTERFACE_SOURCES "${FT_LIB_HEADERS}"
-        INTERFACE_INCLUDE_DIRECTORIES "${FT_LIB_DIR};${FT_LIB_DIR}/include;${FT_LIB_DIR}/include/ft")
-
-#==============================================================================#
 
 if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/scratch")
     if(EXISTS "${PROJECT_SOURCE_DIR}/scratch/CMakeLists.txt")
@@ -99,7 +73,7 @@ target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
 target_compile_options(${TARGET_NAME} PRIVATE "${FT_CFLAGS}")
 set_target_properties(${TARGET_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
-        OUTPUT_NAME "${PROJECT_NAME}")
+        OUTPUT_NAME "philo")
 
 #==============================================================================#
 # Custom targets

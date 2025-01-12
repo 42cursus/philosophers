@@ -11,6 +11,7 @@
 # **************************************************************************** #
 
 philosophers
+philo
 gdb.txt
 scratch/
 replace-git-emails.sh
