@@ -18,13 +18,13 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_STANDARD 99)
 include_directories(include)
 set(FT_LDFLAGS
-        -fsanitize=address
+#        -fsanitize=address
         -fsanitize=undefined
         -fsanitize=thread
         -fno-sanitize-recover
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow)
-set(FT_CFLAGSFT_CFLAGS
+set(FT_CFLAGS
         -Wall -Wextra -Werror
         -Wwrite-strings -Wimplicit
         -Wno-error=unused-parameter
@@ -39,7 +39,7 @@ set(FT_CFLAGSFT_CFLAGS
         -mmanual-endbr
         -g3 -gdwarf-3
         -fasynchronous-unwind-tables
-        -fsanitize=address
+#        -fsanitize=address
         -fsanitize=undefined
         -fsanitize=thread
         -fno-sanitize-recover
@@ -70,6 +70,7 @@ add_executable(${TARGET_NAME}
         ${TARGET_SOURCES})
 target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}")
 target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
+target_link_options(${TARGET_NAME} PRIVATE "${FT_LDFLAGS}")
 target_compile_options(${TARGET_NAME} PRIVATE "${FT_CFLAGS}")
 set_target_properties(${TARGET_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"

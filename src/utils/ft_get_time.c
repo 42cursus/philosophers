@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <sys/time.h>
+#include <sys/types.h>
 #include "philo.h"
 
 u_long	ft_get_time(void)
@@ -23,7 +24,7 @@ u_long	ft_get_time(void)
 	return (time);
 }
 
-void	ft_usleep(long long int time)
+void	ft_usleep(u_int64_t time)
 {
 	u_long	start;
 

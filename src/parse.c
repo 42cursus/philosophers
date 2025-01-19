@@ -43,7 +43,7 @@ void	assign_val(t_table *info, u_long val, int argc)
 int	parse(int argc, char **argv, t_table *table)
 {
 	char				*endptr;
-	u_long				val;
+	long				val;
 	int					i;
 	const char *const	lt[PARAM_COUNT] = {
 		"number_of_philosophers",

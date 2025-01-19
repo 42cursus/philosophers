@@ -26,11 +26,15 @@
 # define ERR_MUTEX		"Can't mutex."
 # define ERR_MAXPHILO	"We can only handle amount of philosophers up to: "
 
-# define FORK "has taken a fork"
-# define EAT "is eating"
-# define SLEEP "is sleeping"
-# define THINK "is thinking"
-# define PASSED "has passed away"
+typedef enum e_status
+{
+	FORK = 0,
+	EAT,
+	SLEEP,
+	THINK,
+	PASSED,
+	ISFULL
+}	t_status;
 
 typedef enum e_hand
 {
@@ -50,8 +54,7 @@ typedef enum e_param
 typedef volatile _Atomic int	t_atomic_int;
 typedef struct s_fork
 {
-	int				id;
-	pthread_mutex_t	fork_lock;
+	pthread_mutex_t	mutex;
 }	t_fork;
 
 typedef struct s_table
@@ -59,27 +62,28 @@ typedef struct s_table
 	u_long			sim_start_time;
 	t_atomic_int	sim_start;
 	t_atomic_int	sim_end;
-	int 			to_live;
-	int 			to_eat;
-	int 			to_sleep;
-	int 			max_eat_count;
+	u_long 			to_live;
+	u_long 			to_eat;
+	u_long 			to_sleep;
+	u_int			max_eat_count;
 	pthread_mutex_t	stdout_lock;
 	pthread_t		monitor_thread;
 	t_fork			*forks;
 	struct s_philo	*phs;
-	u_int			num_of_philos;
-	u_int			num_of_forks;
+	int				num_of_philos;
+	int				num_of_forks;
 }	t_table;
 
 typedef struct s_philo
 {
 	int				id;
 	u_long			last_meal_time;
+	pthread_mutex_t	last_meal_mutex;
 	u_int			times_eaten;
+	pthread_mutex_t	times_eaten_mutex;
 	t_fork			*forks[2];
 	pthread_t		thread;
 	t_table			*cookie;
-	pthread_mutex_t	*stdout_lock;
 }	t_philo;
 
 typedef struct s_convert

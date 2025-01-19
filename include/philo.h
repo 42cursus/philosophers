@@ -23,7 +23,7 @@ int		parse(int argc, char **argv, t_table *table);
 void	init(t_table *table);
 int		ft_start_sim(t_table *table);
 void	*start_routine(void *philo);
-void	ft_print_status(t_philo *ph, char *status);
+void	ft_print_status(t_philo *ph, unsigned char status_code);
 void	*ft_monitor(void *arg);
 
 /* utils */
@@ -39,7 +39,7 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 long	ft_strtol(const char *nptr, char **endptr, int base);
 u_long	ft_strtoul(const char *nptr, char **endptr, int base);
-void	ft_usleep(long long int time);
+void	ft_usleep(u_int64_t time);
 u_long	ft_get_time(void);
 void	ft_perror(const char *msg, const char *end);
 char	*ft_itoa(int nb);

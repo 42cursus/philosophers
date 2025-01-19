@@ -24,10 +24,8 @@ static void	init_forks(t_table *table)
 		table->num_of_forks = 2;
 	i = -1;
 	while (++i < table->num_of_forks)
-	{
-		table->forks[i].id = i;
-		pthread_mutex_init(&table->forks[i].fork_lock, NULL);
-	}
+		pthread_mutex_init(&table->forks[i].mutex, NULL);
+
 }
 
 static void	init_philos(t_table *table)
@@ -36,7 +34,7 @@ static void	init_philos(t_table *table)
 	int				i;
 	t_philo			*philo;
 
-	memset(philos, 0, sizeof(t_philo) * table->num_of_philos);
+	ft_memset(philos, 0, sizeof(t_philo) * table->num_of_philos);
 
 	i = -1;
 	while (++i < table->num_of_philos)
@@ -44,7 +42,8 @@ static void	init_philos(t_table *table)
 		philo = &philos[i];
 		philo->id = i;
 		philo->cookie = table;
-		philo->stdout_lock = &table->stdout_lock;
+		pthread_mutex_init(&philo->last_meal_mutex, NULL);
+		pthread_mutex_init(&philo->times_eaten_mutex, NULL);
 		philo->forks[left_hand] = &table->forks[i];
 		philo->forks[right_hand] = &table->forks[(i + 1) % table->num_of_forks];
 	}
@@ -53,13 +52,15 @@ static void	init_philos(t_table *table)
 
 void init_threads(t_table *table)
 {
-	int				i;
+	int		i;
+	t_philo *ph;
 
 	i = -1;
 	while (++i < table->num_of_philos)
 	{
-		if (pthread_create(&table->phs[i].thread, NULL,
-						   start_routine, &table->phs[i]))
+		ph = &table->phs[i];
+		if (pthread_create(&ph->thread, NULL,
+						   start_routine, ph))
 			exit((ft_perror(ERR_PTHREAD, NULL), -1));
 	}
 	if (pthread_create(&table->monitor_thread, NULL,

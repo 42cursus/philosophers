@@ -24,7 +24,7 @@
  */
 int	main(int argc, char **argv)
 {
-	t_table	*const table = &(t_table){0};
+	static t_table	table;
 
 	if (argc < 5 || argc > 6)
 	{
@@ -33,9 +33,9 @@ int	main(int argc, char **argv)
 			"[number_of_times_each_philosopher_must_eat]\n");
 		exit(EX_DATAERR);
 	}
-	if (parse(argc, argv, table) != 0)
+	if (parse(argc, argv, &table) != 0)
 		return (EX_DATAERR);
-	init(table);
-	ft_start_sim(table);
+	init(&table);
+	ft_start_sim(&table);
 	return (EX_OK);
 }

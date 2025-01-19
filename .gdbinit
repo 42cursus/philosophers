@@ -2,8 +2,8 @@ set height unlimited
 set pagination off
 set confirm off
 
-set trace-commands on
-set print inferior-events on
+#set trace-commands on
+#set print inferior-events on
 
 set sysroot /
 
@@ -20,11 +20,13 @@ directory ~/staging/glibc-2.31/sysdeps
 br main
 
 set mem inaccessible-by-default off
+set detach-on-fork off
+#set detach-on-fork on
 #set follow-fork-mode parent
 set follow-fork-mode child
-set follow-exec-mode new
-#set follow-exec-mode same
-set detach-on-fork off
+#set follow-exec-mode new
+set follow-exec-mode same
+
 
 #catch fork
 
