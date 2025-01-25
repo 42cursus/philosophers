@@ -13,20 +13,6 @@
 #include "philo.h"
 
 /**
- * ft_memset() fills memory with a constant byte,
- * returns a pointer to the memory area s.
- */
-void	*ft_memset(void *s, int c, size_t n)
-{
-	unsigned char	*d;
-
-	d = s;
-	while (n-- != 0)
-		*d++ = (unsigned char)c;
-	return (s);
-}
-
-/**
  * The ft_memcmp() function compares the first n bytes (each interpreted
  * as unsigned char) of the memory areas s1 and s2.
  * returns an integer less than, equal to, or greater than zero if the first n

@@ -14,7 +14,7 @@
 
 void	assign_val(t_table *info, u_long val, int argc)
 {
-	char errbuf[1024];
+	char	errbuf[1024];
 
 	if (val == 0 || !((int)val > INT_MIN && (int)val < INT_MAX))
 		exit((ft_perror(ERR_INPUT, NULL), -1));
@@ -46,10 +46,8 @@ int	parse(int argc, char **argv, t_table *table)
 	long				val;
 	int					i;
 	const char *const	lt[PARAM_COUNT] = {
-		"number_of_philosophers",
-		"time_to_die",
-		"time_to_eat",
-		"time_to_sleep",
+		"number_of_philosophers", "time_to_die",
+		"time_to_eat", "time_to_sleep",
 		"number_of_times_each_philosopher_must_eat",
 	};
 

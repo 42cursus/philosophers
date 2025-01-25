@@ -21,6 +21,8 @@
 
 int		parse(int argc, char **argv, t_table *table);
 void	init(t_table *table);
+int		ft_sleep(t_philo *ph);
+int		ft_eat(t_philo *ph);
 int		ft_start_sim(t_table *table);
 void	*start_routine(void *philo);
 void	ft_print_status(t_philo *ph, unsigned char status_code);

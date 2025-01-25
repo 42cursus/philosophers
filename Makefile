@@ -21,14 +21,11 @@ INCLUDE_FLAGS	:= -I. -I./include -I./include/ft
 DEBUG_FLAGS		:= -g3 -gdwarf-3
 DEPFLAGS		= -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
-#MANDATORY_FLAGS	:= -Wall -Wextra -Werror
-MANDATORY_FLAGS	:= -Wall -Wextra -Werror -Wwrite-strings -Wimplicit
+MANDATORY_FLAGS	:= -Wall -Wextra -Werror
+#MANDATORY_FLAGS	:= -Wall -Wextra -Werror -Wwrite-strings -Wimplicit
 CFLAGS			= $(MANDATORY_FLAGS) $(OPTIMIZE_FLAGS)
 
-LIBFT_PATH		=  ./lib/ft
-LIBFT			=  $(LIBFT_PATH)/libft.a
-
-LINK_FLAGS		:= -L $(LIBFT_PATH) -lft -lpthread
+LINK_FLAGS		:= -lpthread
 
 CTAGS			:= ctags
 RM				:= /bin/rm
@@ -39,9 +36,29 @@ OBJDIR			= $(BUILD_DIR)/objs
 DEPDIR			= $(BUILD_DIR)/deps
 
 SRC_DIR			= src
-SRC_FS	 		:= main.c
+UTILS_DIR		= utils
+SRC_FS	 		:= main.c \
+					exec.c \
+					init.c \
+					monitor.c \
+					parse.c \
+					routine.c \
+					status.c
+
+UTILS_FS 		:= ft_get_time.c \
+					ft_isctype.c \
+					ft_isctype2.c \
+					ft_itoa.c \
+					ft_mem.c \
+					ft_memset.c \
+					ft_perror.c \
+					ft_strlen.c \
+					ft_strtol.c \
+					ft_strtoul.c \
+
 
 SRCS	 		:= $(SRC_FS:%.c=$(SRC_DIR)/%.c)
+SRCS	 		+= $(UTILS_FS:%.c=$(SRC_DIR)/$(UTILS_DIR)/%.c)
 OBJS			= $(SRCS:$(SRC_DIR)/%.c=$(OBJDIR)/%.o)
 DEPS			= $(SRCS:$(SRC_DIR)/%.c=$(DEPDIR)/%.d)
 
@@ -54,25 +71,11 @@ OUTPUT_OPTION	= -o $@
 COMPILE.c		= $(CC) $(INCLUDE_FLAGS) $(DEPFLAGS) $(CFLAGS) \
  					$(DEBUG_FLAGS) $(TARGET_ARCH) -c
 
-LIBFT_PREFIX	= $(LIBFT_PATH)/
-include $(LIBFT_PATH)/libft.mk
-
-LIBFT_DEPS		= $(FT_SRCS:%.c=$(LIBFT_PATH)/build/deps/%.d)
-
-all: $(LIBFT) $(PROGRAM)
-
-# Include dependency files
--include $(DEPS)
--include $(LIBFT_DEPS)
-
-$(LIBFT): $(LIBFT_PATH)/Makefile
-		@$(MAKE) -C $(LIBFT_PATH) -j8
+all: $(PROGRAM)
 
 # make -p -R -r -f Makefile | grep -v '^#'
-$(PROGRAM): $(OBJS) $(LIBFT)
+$(PROGRAM): $(OBJS)
 		$(CC) $(CFLAGS) $(OUTPUT_OPTION) $^ $(LINK_FLAGS)
-
-$(DEPS):
 
 # "$<" Refers to the first prerequisite of the current target.
 # "$^" Refers to all prerequisites of the current target, separated by spaces.

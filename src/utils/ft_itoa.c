@@ -14,14 +14,14 @@
 
 char	*ft_uitoa_buf(unsigned int nbr, char *buf, size_t length)
 {
-	char				*const ptr = buf;
+	char *const			ptr = buf;
 	unsigned int const	decimal_radix = 10;
 	unsigned int		stack[20];
 	unsigned int		ss;
 
 	ss = 0;
 	stack[ss++] = nbr;
-	while(ss)
+	while (ss)
 	{
 		nbr = stack[--ss];
 		if (nbr >= decimal_radix)

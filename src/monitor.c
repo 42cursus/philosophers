@@ -14,10 +14,10 @@
 
 int	ft_has_eaten(t_philo *ph, const u_int max_eat_count)
 {
-	int ret;
+	int	ret;
+
 	ret = 0;
 	pthread_mutex_lock(&ph->times_eaten_mutex);
-
 	if (max_eat_count && ph->times_eaten >= max_eat_count)
 		ret = 1;
 	pthread_mutex_unlock(&ph->times_eaten_mutex);
@@ -53,7 +53,7 @@ void	has_everyone_ate(t_table *table)
 
 int	ft_is_dead(t_philo *ph)
 {
-	int ret;
+	int	ret;
 
 	ret = 0;
 	pthread_mutex_lock(&ph->last_meal_mutex);
@@ -71,11 +71,11 @@ void	*ft_monitor(void *arg)
 {
 	t_table *const	table = arg;
 	int				i;
-	t_philo 		*ph;
+	t_philo			*ph;
 
 	while (!table->sim_start)
 		ft_usleep(20);
-	while(!table->sim_end)
+	while (!table->sim_end)
 	{
 		i = -1;
 		while (++i < table->num_of_philos && !table->sim_end)

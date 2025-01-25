@@ -19,13 +19,11 @@ static void	init_forks(t_table *table)
 
 	memset(forks, 0, sizeof(t_fork));
 	table->forks = forks;
-
 	if (table->num_of_philos == 1)
 		table->num_of_forks = 2;
 	i = -1;
 	while (++i < table->num_of_forks)
 		pthread_mutex_init(&table->forks[i].mutex, NULL);
-
 }
 
 static void	init_philos(t_table *table)
@@ -35,7 +33,6 @@ static void	init_philos(t_table *table)
 	t_philo			*philo;
 
 	ft_memset(philos, 0, sizeof(t_philo) * table->num_of_philos);
-
 	i = -1;
 	while (++i < table->num_of_philos)
 	{
@@ -50,21 +47,21 @@ static void	init_philos(t_table *table)
 	table->phs = philos;
 }
 
-void init_threads(t_table *table)
+void	init_threads(t_table *table)
 {
 	int		i;
-	t_philo *ph;
+	t_philo	*ph;
 
 	i = -1;
 	while (++i < table->num_of_philos)
 	{
 		ph = &table->phs[i];
 		if (pthread_create(&ph->thread, NULL,
-						   start_routine, ph))
+				start_routine, ph))
 			exit((ft_perror(ERR_PTHREAD, NULL), -1));
 	}
 	if (pthread_create(&table->monitor_thread, NULL,
-					   ft_monitor, table) != 0)
+			ft_monitor, table) != 0)
 		exit((ft_perror(ERR_PTHREAD, NULL), -1));
 }
 
