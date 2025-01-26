@@ -22,11 +22,13 @@ void	ft_print_status(t_philo *ph, unsigned char status_code)
 		"died"
 	};
 
-	pthread_mutex_lock(&ph->cookie->stdout_lock);
-	if (!ph->cookie->sim_end || status_code == DIE)
-		printf("%ld %d %s\n", ft_get_time() - ph->cookie->sim_start_time,
-			ph->id, statuses[status_code]);
-	pthread_mutex_unlock(&ph->cookie->stdout_lock);
+	pthread_mutex_lock(&ph->table->stdout_lock);
+	if (sim_is_active(ph->table) || status_code == PASSED)
+	{
+		printf("%ld %d %s\n", ft_get_time() - ph->sim_start_time,
+			   ph->id, statuses[status_code]);
+	}
+	pthread_mutex_unlock(&ph->table->stdout_lock);
 }
 
 void	ft_perror(const char *msg, const char *end)

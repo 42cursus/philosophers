@@ -32,7 +32,7 @@ typedef enum e_status
 	EAT,
 	SLEEP,
 	THINK,
-	DIE,
+	PASSED,
 	ISFULL
 }	t_status;
 
@@ -62,6 +62,7 @@ typedef struct s_fork
 typedef struct s_table
 {
 	u_long			sim_start_time;
+	pthread_mutex_t	sim_mutex;
 	t_atomic_int	sim_start;
 	t_atomic_int	sim_end;
 	u_long			to_live;
@@ -78,11 +79,13 @@ typedef struct s_table
 typedef struct s_philo
 {
 	int				id;
-	t_atomic_u_long	last_meal_time;
-	t_atomic_u_int	times_eaten;
+	u_long			last_meal_time;
+	pthread_mutex_t	last_meal_mutex;
+	u_int			times_eaten;
+	u_long			sim_start_time;
 	t_fork			*forks[2];
 	pthread_t		thread;
-	t_table			*cookie;
+	t_table			*table;
 }	t_philo;
 
 typedef struct s_convert

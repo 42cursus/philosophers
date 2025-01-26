@@ -36,7 +36,8 @@ static void	init_philos(t_table *table)
 	{
 		philo = &philos[i];
 		philo->id = i;
-		philo->cookie = table;
+		philo->table = table;
+		pthread_mutex_init(&philo->last_meal_mutex, NULL);
 		philo->forks[left_hand] = &table->forks[i];
 		philo->forks[right_hand] = &table->forks[(i + 1) % table->n_of_philos];
 	}
@@ -48,6 +49,9 @@ void	init_threads(t_table *table)
 	int		i;
 	t_philo	*ph;
 
+	if (pthread_create(&table->monitor_thread, NULL,
+					   ft_monitor, table) != 0)
+		exit((ft_perror(ERR_PTHREAD, NULL), -1));
 	i = -1;
 	while (++i < table->n_of_philos)
 	{
@@ -56,9 +60,6 @@ void	init_threads(t_table *table)
 				start_routine, ph))
 			exit((ft_perror(ERR_PTHREAD, NULL), -1));
 	}
-	if (pthread_create(&table->monitor_thread, NULL,
-			ft_monitor, table) != 0)
-		exit((ft_perror(ERR_PTHREAD, NULL), -1));
 }
 
 void	init(t_table *table)
@@ -66,5 +67,7 @@ void	init(t_table *table)
 	init_forks(table);
 	init_philos(table);
 	pthread_mutex_init(&table->stdout_lock, NULL);
+	pthread_mutex_init(&table->sim_mutex, NULL);
+	pthread_mutex_lock(&table->sim_mutex);
 	init_threads(table);
 }

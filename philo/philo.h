@@ -28,6 +28,9 @@ int		ft_start_sim(t_table *table);
 void	*start_routine(void *philo);
 void	ft_print_status(t_philo *ph, unsigned char status_code);
 void	*ft_monitor(void *arg);
+int		sim_is_active(t_table *t);
+void	set_sim_end(t_table *t);
+int		ft_update_meal_time(t_philo *ph, u_long time);
 
 /* utils */
 int		ft_isspace(int c);
@@ -37,6 +40,7 @@ int		ft_tolower(int c);
 u_long	ft_strtoul(const char *nptr, char **endptr, int base);
 void	ft_usleep(u_int64_t time);
 u_long	ft_get_time(void);
+u_long	ft_get_start_time(t_table  *table);
 void	ft_perror(const char *msg, const char *end);
 char	*ft_uitoa_buf(unsigned int abs, char *buf, size_t length);
 void	*ft_memset(void *s, int c, size_t n);

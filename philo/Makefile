@@ -16,7 +16,7 @@ CC				:= cc
 OPTIMIZE_FLAGS	:= -O3
 CC				:= cc
 INCLUDE_FLAGS	:= -I. -I /usr/x86_64-linux-gnu/include
-#DEBUG_FLAGS		:= -g3 -gdwarf-3
+DEBUG_FLAGS		:= -g3 -gdwarf-3
 
 MANDATORY_FLAGS	:= -Wall -Wextra -Werror
 

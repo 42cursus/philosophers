@@ -29,7 +29,7 @@ static int	take_forks(t_philo *ph)
 	if (pthread_mutex_lock(&ph->forks[hands[0]]->mutex))
 		return (-1);
 	ft_print_status(ph, FORK);
-	if (ph->cookie->n_of_philos == 1)
+	if (ph->table->n_of_philos == 1)
 		return ((void) pthread_mutex_unlock(&ph->forks[hands[0]]->mutex), -1);
 	if (pthread_mutex_lock(&ph->forks[hands[1]]->mutex))
 		return (-1);
@@ -47,20 +47,28 @@ static int	put_forks(t_philo *ph)
 int	ft_sleep(t_philo *ph)
 {
 	ft_print_status(ph, SLEEP);
-	ft_usleep(ph->cookie->to_sleep);
+	ft_usleep(ph->table->to_sleep);
 	return (1);
+}
+
+int	ft_update_meal_time(t_philo *ph, u_long time)
+{
+	pthread_mutex_lock(&ph->last_meal_mutex);
+	ph->last_meal_time = time;
+	ph->times_eaten++;
+	pthread_mutex_unlock(&ph->last_meal_mutex);
+	return (0);
 }
 
 int	ft_eat(t_philo *ph)
 {
 	if (!take_forks(ph))
 	{
-		if (!ph->cookie->sim_end)
+		if (sim_is_active(ph->table))
 		{
-			ph->last_meal_time = ft_get_time();
+			ft_update_meal_time(ph, ft_get_time());
 			ft_print_status(ph, EAT);
-			ph->times_eaten++;
-			ft_usleep(ph->cookie->to_eat);
+			ft_usleep(ph->table->to_eat);
 		}
 		put_forks(ph);
 	}

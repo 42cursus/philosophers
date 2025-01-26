@@ -16,6 +16,7 @@ directory ~/staging/glibc-2.31/csu
 directory ~/staging/glibc-2.31/ctype
 directory ~/staging/glibc-2.31/stdlib
 directory ~/staging/glibc-2.31/sysdeps
+directory ~/staging/gcc-10-10.5.0/src/libsanitizer/tsan
 
 br main
 

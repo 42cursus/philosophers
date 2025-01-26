@@ -6,10 +6,9 @@
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/13 18:05:20 by abelov            #+#    #+#              #
-#    Updated: 2024/09/13 18:05:21 by abelov           ###   ########.fr        #
+#    Updated: 2025/01/25 09:03:36 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 cmake_minimum_required(VERSION 3.8)
 
