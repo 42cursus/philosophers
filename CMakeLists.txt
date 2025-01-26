@@ -13,10 +13,10 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-project(philosophers C)
+project(philo C)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_STANDARD 99)
-include_directories(include)
+
 set(FT_LDFLAGS
 #        -fsanitize=address
         -fsanitize=undefined
@@ -46,15 +46,9 @@ set(FT_CFLAGS
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow)
 
-if(IS_DIRECTORY "${PROJECT_SOURCE_DIR}/scratch")
-    if(EXISTS "${PROJECT_SOURCE_DIR}/scratch/CMakeLists.txt")
-        add_subdirectory(scratch)
-    endif()
-endif()
-
-file(GLOB_RECURSE TARGET_HEADERS "src/*.h")
+file(GLOB_RECURSE TARGET_HEADERS "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/*.h")
 list(FILTER TARGET_HEADERS EXCLUDE REGEX "bonus/*" )
-file(GLOB_RECURSE TARGET_SOURCES "src/*.c")
+file(GLOB_RECURSE TARGET_SOURCES "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}/*.c")
 list(FILTER TARGET_SOURCES EXCLUDE REGEX "bonus/*")
 
 set(TARGET_NAME "${PROJECT_NAME}_exe")
@@ -68,12 +62,12 @@ set(TARGET_LIBRARIES
 add_executable(${TARGET_NAME}
         ${TARGET_HEADERS}
         ${TARGET_SOURCES})
-target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}")
+target_include_directories(${TARGET_NAME} PRIVATE "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}")
 target_link_libraries(${TARGET_NAME} "${TARGET_LIBRARIES}")
 target_link_options(${TARGET_NAME} PRIVATE "${FT_LDFLAGS}")
 target_compile_options(${TARGET_NAME} PRIVATE "${FT_CFLAGS}")
 set_target_properties(${TARGET_NAME} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
+        RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/${PROJECT_NAME}"
         OUTPUT_NAME "philo")
 
 #==============================================================================#

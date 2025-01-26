@@ -27,10 +27,12 @@ static int	take_forks(t_philo *ph)
 		hands[1] = left_hand;
 	}
 	if (pthread_mutex_lock(&ph->forks[hands[0]]->mutex))
-		return (1);
+		return (-1);
 	ft_print_status(ph, FORK);
+	if (ph->cookie->n_of_philos == 1)
+		return ((void) pthread_mutex_unlock(&ph->forks[hands[0]]->mutex), -1);
 	if (pthread_mutex_lock(&ph->forks[hands[1]]->mutex))
-		return (1);
+		return (-1);
 	ft_print_status(ph, FORK);
 	return (0);
 }
@@ -42,7 +44,6 @@ static int	put_forks(t_philo *ph)
 	return (0);
 }
 
-
 int	ft_sleep(t_philo *ph)
 {
 	ft_print_status(ph, SLEEP);
@@ -50,25 +51,20 @@ int	ft_sleep(t_philo *ph)
 	return (1);
 }
 
-void	ft_update_last_meal_time(t_philo *ph)
-{
-	pthread_mutex_lock(&ph->last_meal_mutex);
-	ph->last_meal_time = ft_get_time();
-	pthread_mutex_unlock(&ph->last_meal_mutex);
-}
-
 int	ft_eat(t_philo *ph)
 {
 	if (!take_forks(ph))
 	{
-		ft_update_last_meal_time(ph);
-		ft_print_status(ph, EAT);
-		ft_usleep(ph->cookie->to_eat);
+		if (!ph->cookie->sim_end)
+		{
+			ph->last_meal_time = ft_get_time();
+			ft_print_status(ph, EAT);
+			ph->times_eaten++;
+			ft_usleep(ph->cookie->to_eat);
+		}
 		put_forks(ph);
-		pthread_mutex_lock(&ph->times_eaten_mutex);
-		ph->times_eaten++;
-		pthread_mutex_unlock(&ph->times_eaten_mutex);
 	}
-	return (1);
+	else
+		return (-1);
+	return (0);
 }
-

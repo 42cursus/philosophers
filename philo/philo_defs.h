@@ -6,7 +6,7 @@
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 04:17:57 by abelov            #+#    #+#             */
-/*   Updated: 2025/01/12 04:17:57 by abelov           ###   ########.fr       */
+/*   Updated: 2025/01/25 22:26:04 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_status
 	EAT,
 	SLEEP,
 	THINK,
-	PASSED,
+	DIE,
 	ISFULL
 }	t_status;
 
@@ -51,7 +51,9 @@ typedef enum e_param
 	max_eat_count
 }	t_param;
 
-typedef volatile _Atomic int	t_atomic_int;
+typedef volatile _Atomic int			t_atomic_int;
+typedef volatile _Atomic unsigned int	t_atomic_u_int;
+typedef volatile _Atomic unsigned long	t_atomic_u_long;
 typedef struct s_fork
 {
 	pthread_mutex_t	mutex;
@@ -62,25 +64,22 @@ typedef struct s_table
 	u_long			sim_start_time;
 	t_atomic_int	sim_start;
 	t_atomic_int	sim_end;
-	u_long 			to_live;
-	u_long 			to_eat;
-	u_long 			to_sleep;
+	u_long			to_live;
+	u_long			to_eat;
+	u_long			to_sleep;
 	u_int			max_eat_count;
 	pthread_mutex_t	stdout_lock;
 	pthread_t		monitor_thread;
 	t_fork			*forks;
 	struct s_philo	*phs;
-	int				num_of_philos;
-	int				num_of_forks;
+	int				n_of_philos;
 }	t_table;
 
 typedef struct s_philo
 {
 	int				id;
-	u_long			last_meal_time;
-	pthread_mutex_t	last_meal_mutex;
-	u_int			times_eaten;
-	pthread_mutex_t	times_eaten_mutex;
+	t_atomic_u_long	last_meal_time;
+	t_atomic_u_int	times_eaten;
 	t_fork			*forks[2];
 	pthread_t		thread;
 	t_table			*cookie;

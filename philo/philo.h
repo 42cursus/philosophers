@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef PHILO_H
+# define PHILO_H
 # include <pthread.h>
 # include <errno.h>
 # include <string.h>
@@ -32,20 +33,11 @@ void	*ft_monitor(void *arg);
 int		ft_isspace(int c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
-int		ft_isxdigit(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_isupper(int c);
-int		ft_islower(int c);
-int		ft_toupper(int c);
 int		ft_tolower(int c);
-long	ft_strtol(const char *nptr, char **endptr, int base);
 u_long	ft_strtoul(const char *nptr, char **endptr, int base);
 void	ft_usleep(u_int64_t time);
 u_long	ft_get_time(void);
 void	ft_perror(const char *msg, const char *end);
-char	*ft_itoa(int nb);
-char	*ft_itoa_buf(int nb, char *buf, size_t length);
 char	*ft_uitoa_buf(unsigned int abs, char *buf, size_t length);
 void	*ft_memset(void *s, int c, size_t n);
 size_t	ft_strlen(const char *str);

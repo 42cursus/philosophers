@@ -19,10 +19,8 @@ static void	init_forks(t_table *table)
 
 	memset(forks, 0, sizeof(t_fork));
 	table->forks = forks;
-	if (table->num_of_philos == 1)
-		table->num_of_forks = 2;
 	i = -1;
-	while (++i < table->num_of_forks)
+	while (++i < table->n_of_philos)
 		pthread_mutex_init(&table->forks[i].mutex, NULL);
 }
 
@@ -32,17 +30,15 @@ static void	init_philos(t_table *table)
 	int				i;
 	t_philo			*philo;
 
-	ft_memset(philos, 0, sizeof(t_philo) * table->num_of_philos);
+	ft_memset(philos, 0, sizeof(t_philo) * table->n_of_philos);
 	i = -1;
-	while (++i < table->num_of_philos)
+	while (++i < table->n_of_philos)
 	{
 		philo = &philos[i];
 		philo->id = i;
 		philo->cookie = table;
-		pthread_mutex_init(&philo->last_meal_mutex, NULL);
-		pthread_mutex_init(&philo->times_eaten_mutex, NULL);
 		philo->forks[left_hand] = &table->forks[i];
-		philo->forks[right_hand] = &table->forks[(i + 1) % table->num_of_forks];
+		philo->forks[right_hand] = &table->forks[(i + 1) % table->n_of_philos];
 	}
 	table->phs = philos;
 }
@@ -53,7 +49,7 @@ void	init_threads(t_table *table)
 	t_philo	*ph;
 
 	i = -1;
-	while (++i < table->num_of_philos)
+	while (++i < table->n_of_philos)
 	{
 		ph = &table->phs[i];
 		if (pthread_create(&ph->thread, NULL,

@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isctype2.c                                      :+:      :+:    :+:   */
+/*   ft_isctype.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
+/*   By: abelov <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 02:57:28 by abelov            #+#    #+#             */
-/*   Updated: 2024/06/02 08:54:21 by abelov           ###   ########.fr       */
+/*   Created: 2023/11/02 15:04:01 by abelov            #+#    #+#             */
+/*   Updated: 2023/11/18 20:23:45 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isprint(int c)
+int	ft_isalpha(int c)
 {
-	return ((c >= '\x20') && (c < '\x7f'));
+	return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'));
 }
 
-int	ft_isupper(int c)
+int	ft_isdigit(int c)
 {
-	return ((c >= 'A') && (c <= 'Z'));
-}
-
-int	ft_islower(int c)
-{
-	return ((c >= 'a') && (c <= 'z'));
-}
-
-/**
- * The ft_toupper() function converts lowercase letters to uppercase.
- * Returns its uppercase equivalent, if an uppercase representation exists
- * in the current locale.  Otherwise, it returns c.
- */
-int	ft_toupper(int c)
-{
-	if (!((c >= 'A') && (c <= 'Z')))
-		return (c);
-	return (c - 'a' + 'A');
+	return ('0' <= c && c <= '9');
 }
 
 /**
@@ -47,4 +30,10 @@ int	ft_tolower(int c)
 	if (!((c >= 'A') && (c <= 'Z')))
 		return (c);
 	return (c - 'A' + 'a');
+}
+
+int	ft_isspace(int c)
+{
+	return ((c == ' ') || (c == '\t')
+		|| (c == '\n') || (c == '\v') || (c == '\f') || (c == '\r'));
 }

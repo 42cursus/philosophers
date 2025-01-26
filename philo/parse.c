@@ -27,8 +27,7 @@ void	assign_val(t_table *info, u_long val, int argc)
 			errbuf[ft_strlen(errbuf) + 1] = '\0';
 			exit((ft_perror(ERR_MAXPHILO, errbuf), -1));
 		}
-		info->num_of_philos = val;
-		info->num_of_forks = val;
+		info->n_of_philos = (int)val;
 	}
 	else if (argc == time_to_die)
 		info->to_live = val;

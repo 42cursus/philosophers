@@ -18,34 +18,22 @@ void	*start_routine(void *philo)
 	t_table *const	table = ph->cookie;
 
 	while (!table->sim_start)
-		ft_usleep(20);
-	if (ph->id == 0)
-		ft_usleep(20);
+		usleep(2);
 	while (!table->sim_end)
 	{
 		if (!table->sim_end)
 			ft_print_status(ph, THINK);
 		if (!table->sim_end)
-			ft_eat(ph);
+		{
+			if (ph->id % 2)
+				ft_usleep(1);
+			if (ft_eat(ph))
+				break ;
+		}
 		if (!table->sim_end)
 			ft_sleep(ph);
 	}
 	return (NULL);
-}
-
-void	ft_destroy(t_table *table)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->num_of_forks)
-		pthread_mutex_destroy(&table->forks[i].mutex);
-	i = -1;
-	while (++i < table->num_of_philos)
-	{
-		pthread_mutex_destroy(&table->phs[i].times_eaten_mutex);
-		pthread_mutex_destroy(&table->phs[i].last_meal_mutex);
-	}
 }
 
 int	ft_start_sim(t_table *table)
@@ -54,16 +42,17 @@ int	ft_start_sim(t_table *table)
 
 	table->sim_start_time = ft_get_time();
 	i = -1;
-	while (++i < table->num_of_philos)
+	while (++i < table->n_of_philos)
 		table->phs[i].last_meal_time = table->sim_start_time;
 	table->sim_start = 1;
 	i = -1;
-	while (++i < table->num_of_philos)
+	while (++i < table->n_of_philos)
 		pthread_join(table->phs[i].thread, NULL);
 	while (!table->sim_end)
 		usleep(10);
 	pthread_join(table->monitor_thread, NULL);
-	ft_destroy(table);
+	i = -1;
+	while (++i < table->n_of_philos)
+		pthread_mutex_destroy(&table->forks[i].mutex);
 	return (0);
 }
-
