@@ -21,16 +21,11 @@ void	*start_routine(void *philo)
 	pthread_mutex_unlock(&table->sim_mutex);
 	while (sim_is_active(table))
 	{
-		if (sim_is_active(table))
-		{
-			ft_print_status(ph, THINK);
-			ft_usleep(ph->table->to_think);
-		}
-		if (sim_is_active(table))
-		{
-			if (ft_eat(ph))
-				break ;
-		}
+		ft_print_status(ph, THINK);
+		if (ph->id % 2)
+			ft_usleep(1);
+		if (ft_eat(ph))
+			break ;
 		if (sim_is_active(table))
 			ft_sleep(ph);
 	}
@@ -46,7 +41,7 @@ void	ft_destroy(t_table *table)
 		pthread_mutex_destroy(&table->forks[i].mutex);
 	i = -1;
 	while (++i < table->n_of_philos)
-		pthread_mutex_destroy(&table->phs[i].last_meal_mutex);
+		pthread_mutex_destroy(&table->phs[i].meal_mutex);
 	pthread_mutex_destroy(&table->sim_mutex);
 }
 

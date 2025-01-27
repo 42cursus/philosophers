@@ -12,6 +12,7 @@
 
 NAME			:= philo
 CC				:= cc
+CC				:= clang
 
 OPTIMIZE_FLAGS	:= -O3
 CC				:= cc
@@ -24,7 +25,6 @@ CFLAGS			= $(MANDATORY_FLAGS) $(OPTIMIZE_FLAGS)
 
 LINK_FLAGS		:= -lpthread
 
-CTAGS			:= ctags
 RM				:= /bin/rm
 RMFLAGS			:= -rfv
 
@@ -43,8 +43,7 @@ SRCS	 		:= main.c \
 					ft_itoa.c \
 					ft_memset.c \
 					ft_strlen.c \
-					ft_strtoul.c \
-					ft_strlcat.c \
+					ft_strtoul.c
 
 OBJS			= $(SRCS:%.c=$(OBJDIR)/%.o)
 

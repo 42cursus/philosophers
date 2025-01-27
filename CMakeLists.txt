@@ -11,6 +11,8 @@
 # **************************************************************************** #
 
 cmake_minimum_required(VERSION 3.8)
+set(CMAKE_C_COMPILER clang)
+#set(CMAKE_C_COMPILER gcc)
 
 project(philo C)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -18,7 +20,7 @@ set(CMAKE_C_STANDARD 99)
 
 set(FT_LDFLAGS
 #        -fsanitize=address
-        -fsanitize=undefined
+#        -fsanitize=undefined
         -fsanitize=thread
         -fno-sanitize-recover
         -fsanitize=float-divide-by-zero
@@ -39,7 +41,7 @@ set(FT_CFLAGS
         -g3 -gdwarf-3
         -fasynchronous-unwind-tables
 #        -fsanitize=address
-        -fsanitize=undefined
+#        -fsanitize=undefined
         -fsanitize=thread
         -fno-sanitize-recover
         -fsanitize=float-divide-by-zero

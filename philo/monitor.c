@@ -12,7 +12,8 @@
 
 #include "philo.h"
 
-int	has_everyone_ate(t_table *table)
+__always_inline
+static int	has_everyone_ate(t_table *table)
 {
 	int						i;
 	int						has_eaten;
@@ -24,9 +25,9 @@ int	has_everyone_ate(t_table *table)
 		i = -1;
 		while (++i < num_of_philos)
 		{
-			pthread_mutex_lock(&(&table->phs[i])->last_meal_mutex);
+			pthread_mutex_lock(&(&table->phs[i])->meal_mutex);
 			has_eaten = (&table->phs[i])->times_eaten >= max_eat_count;
-			pthread_mutex_unlock(&(&table->phs[i])->last_meal_mutex);
+			pthread_mutex_unlock(&(&table->phs[i])->meal_mutex);
 			if (!has_eaten)
 				break ;
 		}
@@ -36,13 +37,14 @@ int	has_everyone_ate(t_table *table)
 	return (0);
 }
 
-int	ft_is_dead(t_philo *ph)
+__always_inline
+static int	ft_is_dead(t_philo *ph)
 {
 	int	ret;
 
-	pthread_mutex_lock(&ph->last_meal_mutex);
+	pthread_mutex_lock(&ph->meal_mutex);
 	ret = (ft_get_time() - ph->last_meal_time) >= ph->table->to_live;
-	pthread_mutex_unlock(&ph->last_meal_mutex);
+	pthread_mutex_unlock(&ph->meal_mutex);
 	return (ret);
 }
 
@@ -85,6 +87,7 @@ void	*ft_monitor(void *arg)
 				return (NULL);
 			}
 		}
+		ft_usleep(1);
 	}
 	return (NULL);
 }

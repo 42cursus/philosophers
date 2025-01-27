@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/param.h>
 #include "philo.h"
 
 static void	init_forks(t_table *table)
@@ -27,22 +28,37 @@ static void	init_forks(t_table *table)
 	}
 }
 
+static void	assign_forks(t_philo *ph, t_fork *forks, int pos)
+{
+	t_table *const	table = ph->table;
+
+	if (ph->id % 2)
+	{
+		ph->forks[left_hand] = &forks[pos];
+		ph->forks[right_hand] = &forks[(pos + 1) % table->n_of_philos];
+	}
+	else
+	{
+		ph->forks[left_hand] = &forks[(pos + 1) % table->n_of_philos];
+		ph->forks[right_hand] = &forks[pos];
+	}
+}
+
 static void	init_philos(t_table *table)
 {
-	static t_philo	philos[MAX_PHILOSOPHERS];
 	int				i;
+	static t_philo	philos[MAX_PHILOSOPHERS];
 	t_philo			*philo;
 
-	ft_memset(philos, 0, sizeof(t_philo) * table->n_of_philos);
+	ft_memset(philos, 0, sizeof(t_philo) * MAX_PHILOSOPHERS);
 	i = -1;
 	while (++i < table->n_of_philos)
 	{
 		philo = &philos[i];
-		philo->id = i;
+		philo->id = i + 1;
 		philo->table = table;
-		pthread_mutex_init(&philo->last_meal_mutex, NULL);
-		philo->forks[left_hand] = &table->forks[i];
-		philo->forks[right_hand] = &table->forks[(i + 1) % table->n_of_philos];
+		pthread_mutex_init(&philo->meal_mutex, NULL);
+		assign_forks(philo, table->forks, i);
 	}
 	table->phs = philos;
 }

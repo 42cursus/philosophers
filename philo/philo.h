@@ -30,7 +30,7 @@ void	ft_print_status(t_philo *ph, unsigned char status_code);
 void	*ft_monitor(void *arg);
 int		sim_is_active(t_table *t);
 void	set_sim_end(t_table *t);
-int		ft_update_meal_time(t_philo *ph, u_long time);
+int		ft_update_meal_time(t_philo *ph);
 
 /* utils */
 int		ft_isspace(int c);

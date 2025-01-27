@@ -14,6 +14,7 @@
 # define PHILO_DEFS_H
 # include <sys/types.h>
 # include <limits.h>
+# include <stdatomic.h>
 
 # define PHILO_H
 # define MAX_PHILOSOPHERS 1024
@@ -51,9 +52,6 @@ typedef enum e_param
 	max_eat_count
 }	t_param;
 
-typedef volatile _Atomic int			t_atomic_int;
-typedef volatile _Atomic unsigned int	t_atomic_u_int;
-typedef volatile _Atomic unsigned long	t_atomic_u_long;
 typedef struct s_fork
 {
 	int				id;
@@ -65,11 +63,10 @@ typedef struct s_table
 {
 	u_long			sim_start_time;
 	pthread_mutex_t	sim_mutex;
-	t_atomic_int	sim_start;
-	t_atomic_int	sim_end;
+	int				sim_end;
+//	atomic_bool		sim_end;
 	u_long			to_live;
 	u_long			to_eat;
-	u_long			to_think;
 	u_long			to_sleep;
 	u_int			max_eat_count;
 	pthread_mutex_t	stdout_lock;
@@ -83,7 +80,7 @@ typedef struct s_philo
 {
 	int				id;
 	u_long			last_meal_time;
-	pthread_mutex_t	last_meal_mutex;
+	pthread_mutex_t	meal_mutex;
 	u_int			times_eaten;
 	u_long			sim_start_time;
 	t_fork			*forks[2];
