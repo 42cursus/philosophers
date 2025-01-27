@@ -40,9 +40,12 @@ int		ft_tolower(int c);
 u_long	ft_strtoul(const char *nptr, char **endptr, int base);
 void	ft_usleep(u_int64_t time);
 u_long	ft_get_time(void);
-u_long	ft_get_start_time(t_table  *table);
+u_long	ft_get_start_time(t_table *table);
 void	ft_perror(const char *msg, const char *end);
 char	*ft_uitoa_buf(unsigned int abs, char *buf, size_t length);
 void	*ft_memset(void *s, int c, size_t n);
 size_t	ft_strlen(const char *str);
+size_t	ft_strnlen(const char *str, size_t size);
+size_t	ft_strlcat(char *dest, const char *src, size_t size);
+
 #endif //PHILO_H

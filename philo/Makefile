@@ -43,7 +43,8 @@ SRCS	 		:= main.c \
 					ft_itoa.c \
 					ft_memset.c \
 					ft_strlen.c \
-					ft_strtoul.c
+					ft_strtoul.c \
+					ft_strlcat.c \
 
 OBJS			= $(SRCS:%.c=$(OBJDIR)/%.o)
 

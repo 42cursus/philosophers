@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/param.h>
 #include "philo.h"
 
 static int	take_forks(t_philo *ph)
@@ -39,8 +40,20 @@ static int	take_forks(t_philo *ph)
 
 static int	put_forks(t_philo *ph)
 {
-	pthread_mutex_unlock(&ph->forks[left_hand]->mutex);
-	pthread_mutex_unlock(&ph->forks[right_hand]->mutex);
+	int	hands[2];
+
+	if (ph->id % 2)
+	{
+		hands[0] = left_hand;
+		hands[1] = right_hand;
+	}
+	else
+	{
+		hands[0] = right_hand;
+		hands[1] = left_hand;
+	}
+	pthread_mutex_unlock(&ph->forks[hands[0]]->mutex);
+	pthread_mutex_unlock(&ph->forks[hands[1]]->mutex);
 	return (0);
 }
 

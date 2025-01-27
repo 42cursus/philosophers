@@ -14,14 +14,17 @@
 
 static void	init_forks(t_table *table)
 {
-	static t_fork	forks[MAX_PHILOSOPHERS];
+	static t_fork	forks[MAX_PHILOSOPHERS] = {0};
 	int				i;
 
-	memset(forks, 0, sizeof(t_fork));
+	memset(forks, 0, sizeof(t_fork) * MAX_PHILOSOPHERS);
 	table->forks = forks;
 	i = -1;
 	while (++i < table->n_of_philos)
-		pthread_mutex_init(&table->forks[i].mutex, NULL);
+	{
+		forks[i].id = i;
+		pthread_mutex_init(&forks[i].mutex, NULL);
+	}
 }
 
 static void	init_philos(t_table *table)
@@ -50,7 +53,7 @@ void	init_threads(t_table *table)
 	t_philo	*ph;
 
 	if (pthread_create(&table->monitor_thread, NULL,
-					   ft_monitor, table) != 0)
+			ft_monitor, table) != 0)
 		exit((ft_perror(ERR_PTHREAD, NULL), -1));
 	i = -1;
 	while (++i < table->n_of_philos)

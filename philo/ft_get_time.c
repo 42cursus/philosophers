@@ -22,7 +22,7 @@ u_long	ft_get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-u_long	ft_get_start_time(t_table  *table)
+u_long	ft_get_start_time(t_table *table)
 {
 	u_long	start_time;
 
@@ -33,7 +33,8 @@ u_long	ft_get_start_time(t_table  *table)
 }
 
 /**
- * https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time.html
+ * https://blog.habets.se
+ * 	/2010/09/gettimeofday-should-never-be-used-to-measure-time.html
  */
 void	ft_usleep(u_int64_t time)
 {

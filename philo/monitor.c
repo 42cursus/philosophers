@@ -12,19 +12,10 @@
 
 #include "philo.h"
 
-int	ft_has_eaten(t_philo *ph, const u_int max_eat_count)
-{
-	int	has_eaten;
-
-	pthread_mutex_lock(&ph->last_meal_mutex);
-	has_eaten = ph->times_eaten >= max_eat_count;
-	pthread_mutex_unlock(&ph->last_meal_mutex);
-	return (has_eaten);
-}
-
 int	has_everyone_ate(t_table *table)
 {
 	int						i;
+	int						has_eaten;
 	register const u_int	max_eat_count = table->max_eat_count;
 	register const int		num_of_philos = table->n_of_philos;
 
@@ -32,8 +23,13 @@ int	has_everyone_ate(t_table *table)
 	{
 		i = -1;
 		while (++i < num_of_philos)
-			if (!ft_has_eaten(&table->phs[i], max_eat_count))
-				break;
+		{
+			pthread_mutex_lock(&(&table->phs[i])->last_meal_mutex);
+			has_eaten = (&table->phs[i])->times_eaten >= max_eat_count;
+			pthread_mutex_unlock(&(&table->phs[i])->last_meal_mutex);
+			if (!has_eaten)
+				break ;
+		}
 		if (i == num_of_philos)
 			return (set_sim_end(table), -1);
 	}
@@ -50,16 +46,16 @@ int	ft_is_dead(t_philo *ph)
 	return (ret);
 }
 
-void set_sim_end(t_table *t)
+void	set_sim_end(t_table *t)
 {
 	pthread_mutex_lock(&t->sim_mutex);
 	t->sim_end = 1;
 	pthread_mutex_unlock(&t->sim_mutex);
 }
 
-int sim_is_active(t_table *t)
+int	sim_is_active(t_table *t)
 {
-	int								ret;
+	int	ret;
 
 	pthread_mutex_lock(&t->sim_mutex);
 	ret = t->sim_end == 0;

@@ -22,9 +22,8 @@ void	assign_val(t_table *info, u_long val, int argc)
 	{
 		if (val > MAX_PHILOSOPHERS)
 		{
-			ft_uitoa_buf(MAX_PHILOSOPHERS, errbuf, 1024);
-			errbuf[ft_strlen(errbuf)] = '\n';
-			errbuf[ft_strlen(errbuf) + 1] = '\0';
+			ft_strlcat(ft_uitoa_buf(MAX_PHILOSOPHERS,
+					errbuf, 1024), "\n", MAX_PHILOSOPHERS);
 			exit((ft_perror(ERR_MAXPHILO, errbuf), -1));
 		}
 		info->n_of_philos = (int)val;
@@ -32,7 +31,10 @@ void	assign_val(t_table *info, u_long val, int argc)
 	else if (argc == time_to_die)
 		info->to_live = val;
 	else if (argc == time_to_eat)
+	{
 		info->to_eat = val;
+		info->to_think = val / 3;
+	}
 	else if (argc == time_to_sleep)
 		info->to_sleep = val;
 	else if (argc == max_eat_count)

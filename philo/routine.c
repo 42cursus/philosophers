@@ -22,9 +22,10 @@ void	*start_routine(void *philo)
 	while (sim_is_active(table))
 	{
 		if (sim_is_active(table))
+		{
 			ft_print_status(ph, THINK);
-		if (ph->id % 2)
-			ft_usleep(1);
+			ft_usleep(ph->table->to_think);
+		}
 		if (sim_is_active(table))
 		{
 			if (ft_eat(ph))

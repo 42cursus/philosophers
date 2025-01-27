@@ -56,6 +56,8 @@ typedef volatile _Atomic unsigned int	t_atomic_u_int;
 typedef volatile _Atomic unsigned long	t_atomic_u_long;
 typedef struct s_fork
 {
+	int				id;
+	int				taken;
 	pthread_mutex_t	mutex;
 }	t_fork;
 
@@ -67,6 +69,7 @@ typedef struct s_table
 	t_atomic_int	sim_end;
 	u_long			to_live;
 	u_long			to_eat;
+	u_long			to_think;
 	u_long			to_sleep;
 	u_int			max_eat_count;
 	pthread_mutex_t	stdout_lock;
